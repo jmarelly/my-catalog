@@ -1,0 +1,9 @@
+node_modules
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Drizzle migrations (generated)
+drizzle/
