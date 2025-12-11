@@ -1,4 +1,4 @@
-import type { Product, CreateProduct, Category } from '../../types';
+import type { Product, CreateProduct } from '../../types';
 
 export interface ProductCheckboxProps {
   product: Product;
@@ -18,5 +18,4 @@ export type ProductFormDialogProps = {
   onClose: () => void;
   onSubmit: (data: CreateProduct) => void;
   product?: Product | null;
-  categories: Category[];
 };

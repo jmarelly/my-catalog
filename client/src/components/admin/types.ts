@@ -1,5 +1,3 @@
-import type { Product } from '../../types';
-
 export type BulkPriceDialogProps = {
   open: boolean;
   onClose: () => void;
@@ -8,5 +6,4 @@ export type BulkPriceDialogProps = {
     discountPercentage: number;
     onSuccess: () => void;
   }) => void;
-  products: Product[];
 };

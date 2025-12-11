@@ -9,17 +9,20 @@ export const useProductsData = (page: number) => {
     queryFn: () => productsApi.getAll({ page, limit: 8 }),
   });
 
-  const allProductsData = useQuery({
-    queryKey: ['products', 'all'],
-    queryFn: () => productsApi.getAll(),
-  });
+  return { productsData };
+};
 
-  const categories = useQuery({
+export const useCategories = () => {
+  return useQuery({
     queryKey: ['categories'],
     queryFn: categoriesApi.getAll,
   });
-
-  return { productsData, allProductsData, categories };
+};
+export const useAllProducts = () => {
+  return useQuery({
+    queryKey: ['products', 'all'],
+    queryFn: () => productsApi.getAll(),
+  });
 };
 
 export const useProductMutations = (callbacks?: {

@@ -12,6 +12,7 @@ import { CheckBoxOutlineBlank, CheckBox } from '@mui/icons-material';
 import { Modal } from '../common/Modal';
 import { bulkPriceUpdateSchema } from '../../schemas/product.schema';
 import { useValidationErrors } from '../../hooks/useValidationErrors';
+import { useAllProducts } from '../../hooks/useProducts';
 import type { BulkPriceDialogProps } from './types';
 import type { Product } from '../../types';
 
@@ -19,12 +20,13 @@ function BulkPriceDialogComponent({
   open,
   onClose,
   onSubmit,
-  products,
-}: BulkPriceDialogProps) {
+}: Omit<BulkPriceDialogProps, 'products'>) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [discount, setDiscount] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { processZodError } = useValidationErrors();
+  const { data: allProductsResponse } = useAllProducts();
+  const allProducts = allProductsResponse?.data || [];
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -112,8 +114,8 @@ function BulkPriceDialogComponent({
 
         <Autocomplete
           multiple
-          options={products}
-          value={products.filter(product => selectedIds.has(product.id))}
+          options={allProducts}
+          value={allProducts.filter(product => selectedIds.has(product.id))}
           onChange={handleSelection}
           getOptionLabel={product =>
             `${product.name} - $${product.price.toFixed(2)}`

@@ -12,6 +12,7 @@ import {
 import { Modal } from '../common/Modal';
 import { productSchema } from '../../schemas/product.schema';
 import { useValidationErrors } from '../../hooks/useValidationErrors';
+import { useCategories } from '../../hooks/useProducts';
 import type { Product, CreateProduct } from '../../types';
 import type { ProductFormDialogProps, ProductFormData } from './types';
 
@@ -20,7 +21,6 @@ export function ProductFormDialog({
   onClose,
   onSubmit,
   product,
-  categories,
 }: ProductFormDialogProps) {
   const [formData, setFormData] = useState<ProductFormData>(() =>
     getInitialFormData(product)
@@ -28,6 +28,7 @@ export function ProductFormDialog({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const isEditing = !!product;
   const { processZodError } = useValidationErrors();
+  const { data: categories = [] } = useCategories();
 
   const resetForm = () => {
     setFormData(getInitialFormData(product));

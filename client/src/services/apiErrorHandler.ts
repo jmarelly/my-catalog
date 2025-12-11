@@ -7,7 +7,6 @@ export const setGlobalToastError = (toastError: (message: string) => void) => {
 };
 
 export function setupApiErrorHandling(api: AxiosInstance) {
-  // Global error interceptor
   api.interceptors.response.use(
     response => response,
     error => {
@@ -43,11 +42,9 @@ export function setupApiErrorHandling(api: AxiosInstance) {
         }
       }
 
-      // Create a custom error with our message
       const customError = new Error(errorMessage);
       customError.cause = error;
 
-      // Re-throw with our custom message
       throw customError;
     }
   );

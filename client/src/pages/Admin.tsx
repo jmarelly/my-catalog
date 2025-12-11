@@ -31,7 +31,7 @@ export function Admin() {
   const [isBulkOpen, setIsBulkOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const { productsData, allProductsData, categories } = useProductsData(page);
+  const { productsData } = useProductsData(page);
   const { createMutation, updateMutation, deleteMutation, bulkUpdateMutation } =
     useProductMutations({
       onBulkUpdateSuccess: () => {
@@ -151,24 +151,26 @@ export function Admin() {
         />
       )}
 
-      <ProductFormDialog
-        key={editingProduct?.id || 'new'}
-        open={isCreateOpen || !!editingProduct}
-        onClose={() => {
-          setIsCreateOpen(false);
-          setEditingProduct(null);
-        }}
-        onSubmit={handleProductSubmit}
-        product={editingProduct}
-        categories={categories?.data || []}
-      />
+      {(isCreateOpen || !!editingProduct) && (
+        <ProductFormDialog
+          key={editingProduct?.id || 'new'}
+          open={true}
+          onClose={() => {
+            setIsCreateOpen(false);
+            setEditingProduct(null);
+          }}
+          onSubmit={handleProductSubmit}
+          product={editingProduct}
+        />
+      )}
 
-      <BulkPriceDialog
-        open={isBulkOpen}
-        onClose={() => setIsBulkOpen(false)}
-        onSubmit={handleBulkSubmit}
-        products={allProductsData?.data?.data || []}
-      />
+      {isBulkOpen && (
+        <BulkPriceDialog
+          open={true}
+          onClose={() => setIsBulkOpen(false)}
+          onSubmit={handleBulkSubmit}
+        />
+      )}
     </>
   );
 }
