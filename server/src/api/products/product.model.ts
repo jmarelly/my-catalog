@@ -14,11 +14,12 @@ export class ProductModel {
 
     let query = db.select().from(products);
 
-    query = query.where(isNull(products.deletedAt)) as typeof query;
-
+    let whereCondition: SQL<unknown> = isNull(products.deletedAt);
     if (condition) {
-      query = query.where(condition) as typeof query;
+      whereCondition = and(whereCondition, condition) as SQL<unknown>;
     }
+
+    query = query.where(whereCondition) as typeof query;
 
     if (limit) {
       query = query.limit(limit) as typeof query;
@@ -34,11 +35,12 @@ export class ProductModel {
   count(where?: WhereCondition): number {
     let query = db.select({ count: sql<number>`count(*)` }).from(products);
 
-    query = query.where(isNull(products.deletedAt)) as typeof query;
-
+    let whereCondition: SQL<unknown> = isNull(products.deletedAt);
     if (where) {
-      query = query.where(where) as typeof query;
+      whereCondition = and(whereCondition, where) as SQL<unknown>;
     }
+
+    query = query.where(whereCondition) as typeof query;
 
     const result = query.get();
     return result?.count || 0;

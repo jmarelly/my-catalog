@@ -1,12 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productsApi, categoriesApi } from '../services/api';
 import { useToast } from './useToast';
-import type { CreateProduct } from '../types';
+import type { CreateProduct, ProductsQuery } from '../types';
 
-export const useProductsData = (page: number) => {
+export const useProductsData = (
+  page: number,
+  filters?: ProductsQuery,
+  limit?: number
+) => {
   const productsData = useQuery({
-    queryKey: ['products', 'admin', page],
-    queryFn: () => productsApi.getAll({ page, limit: 8 }),
+    queryKey: ['products', 'admin', page, filters, limit],
+    queryFn: () => productsApi.getAll({ ...filters, page, limit: limit || 8 }),
   });
 
   return { productsData };

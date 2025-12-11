@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
   IconButton,
+  Box,
 } from '@mui/material';
 import { Add, Edit, Delete, Percent } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
@@ -21,17 +22,20 @@ import { CategoryChip } from '../components/common/CategoryChip';
 import { PriceText } from '../components/common/PriceText';
 import { ProductFormDialog } from '../components/shared/ProductFormDialog';
 import { BulkPriceDialog } from '../components/admin/BulkPriceDialog';
-import type { Product, CreateProduct } from '../types';
+import { ProductFilters } from '../components/products/ProductFilters';
+import type { Product, CreateProduct, ProductsQuery } from '../types';
 
 export function Admin() {
   const { isAdmin, isLoading: authLoading } = useAuth();
 
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(8);
+  const [filters, setFilters] = useState<ProductsQuery>({});
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isBulkOpen, setIsBulkOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const { productsData } = useProductsData(page);
+  const { productsData } = useProductsData(page, filters, limit);
   const { createMutation, updateMutation, deleteMutation, bulkUpdateMutation } =
     useProductMutations({
       onBulkUpdateSuccess: () => {
@@ -43,6 +47,16 @@ export function Admin() {
       },
       onUpdateSuccess: () => setEditingProduct(null),
     });
+
+  const handleFilterChange = useCallback((newFilters: ProductsQuery) => {
+    setFilters(newFilters);
+    setPage(1);
+  }, []);
+
+  const handleLimitChange = useCallback((newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1);
+  }, []);
 
   const handleProductSubmit = useCallback(
     (data: CreateProduct) => {
@@ -99,6 +113,15 @@ export function Admin() {
           </>
         }
       />
+
+      <Box sx={{ mb: 3 }}>
+        <ProductFilters
+          onFilterChange={handleFilterChange}
+          onLimitChange={handleLimitChange}
+          totalItems={productsData?.data?.pagination.totalItems || 0}
+          currentLimit={limit}
+        />
+      </Box>
 
       <TableContainer component={Paper}>
         <Table>
