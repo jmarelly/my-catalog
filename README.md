@@ -13,7 +13,7 @@ A modern full-stack e-commerce product catalog application built with React and 
 - **React Router** for client-side routing
 - **Zod** for schema validation
 
-### Backend
+### Backend d
 
 - **Node.js** with Express framework
 - **TypeScript** for type safety
