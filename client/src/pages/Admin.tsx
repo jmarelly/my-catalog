@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import {
   Typography,
@@ -44,29 +44,35 @@ export function Admin() {
       onUpdateSuccess: () => setEditingProduct(null),
     });
 
+  const handleProductSubmit = useCallback(
+    (data: CreateProduct) => {
+      if (editingProduct) {
+        updateMutation.mutate({ id: editingProduct.id, data });
+      } else {
+        createMutation.mutate(data);
+      }
+    },
+    [editingProduct, updateMutation, createMutation]
+  );
+
+  const handleBulkSubmit = useCallback(
+    (data: {
+      productIds: string[];
+      discountPercentage: number;
+      onSuccess?: () => void;
+    }) => {
+      bulkUpdateMutation.mutate(data, {
+        onSuccess: () => {
+          data.onSuccess?.();
+        },
+      });
+    },
+    [bulkUpdateMutation]
+  );
+
   if (authLoading) return null;
 
   if (!isAdmin) return <Navigate to="/" replace />;
-
-  const handleProductSubmit = (data: CreateProduct) => {
-    if (editingProduct) {
-      updateMutation.mutate({ id: editingProduct.id, data });
-    } else {
-      createMutation.mutate(data);
-    }
-  };
-
-  const handleBulkSubmit = (data: {
-    productIds: string[];
-    discountPercentage: number;
-    onSuccess?: () => void;
-  }) => {
-    bulkUpdateMutation.mutate(data, {
-      onSuccess: () => {
-        data.onSuccess?.();
-      },
-    });
-  };
 
   const products = productsData?.data?.data || [];
 

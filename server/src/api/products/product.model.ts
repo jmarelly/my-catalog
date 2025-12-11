@@ -7,11 +7,14 @@ type WhereCondition = SQL<unknown> | undefined;
 export class ProductModel {
   findAll(options?: {
     condition?: WhereCondition;
-    limit: number;
-    offset: number;
+    limit?: number;
+    offset?: number;
   }) {
     const { condition, limit, offset } = options || {};
+
     let query = db.select().from(products);
+
+    query = query.where(isNull(products.deletedAt)) as typeof query;
 
     if (condition) {
       query = query.where(condition) as typeof query;
@@ -27,7 +30,7 @@ export class ProductModel {
       query = query.offset(offset) as typeof query;
     }
 
-    return query.where(isNull(products.deletedAt)).all();
+    return query.all();
   }
 
   count(where?: WhereCondition): number {
@@ -91,17 +94,14 @@ export class ProductModel {
     return result.changes;
   }
 
-  buildSearchCondition(search?: string): WhereCondition {
+  buildSearchCondition(search?: string): WhereCondition | undefined {
     if (!search) {
-      return isNull(products.deletedAt);
+      return undefined; // No condition for empty search
     }
 
-    return and(
-      isNull(products.deletedAt),
-      or(
-        like(products.name, `%${search}%`),
-        like(products.description, `%${search}%`)
-      )
+    return or(
+      like(products.name, `%${search}%`),
+      like(products.description, `%${search}%`)
     );
   }
 }

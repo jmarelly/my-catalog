@@ -1,15 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { theme } from './styles/theme';
-import { GlobalStyles } from './styles/GlobalStyles';
-import { AuthProvider } from './context/auth/Provider';
-import { ToastProvider } from './context/toast/Provider';
-import { Layout } from './components/layout/Layout';
-import { Home } from './pages/Home';
-import { Login } from './pages/Login';
-import { Admin } from './pages/Admin';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { theme } from "./styles/theme";
+import { GlobalStyles } from "./styles/GlobalStyles";
+import { AuthProvider } from "./context/auth/Provider";
+import { ToastProvider } from "./context/toast/Provider";
+import { Layout } from "./components/layout/Layout";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { Admin } from "./pages/Admin";
 
 const queryClient = new QueryClient({
   defaultOptions: {

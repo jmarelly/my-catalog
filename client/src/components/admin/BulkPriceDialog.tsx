@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, useCallback, memo } from "react";
 import {
   TextField,
   Button,
@@ -13,6 +13,7 @@ import { Modal } from "../common/Modal";
 import { bulkPriceUpdateSchema } from "../../schemas/product.schema";
 import { ZodError } from "zod";
 import type { BulkPriceDialogProps } from "./types";
+import type { Product } from "../../types";
 
 function BulkPriceDialogComponent({
   open,
@@ -24,41 +25,62 @@ function BulkPriceDialogComponent({
   const [discount, setDiscount] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      setErrors({});
 
-    try {
-      const validated = bulkPriceUpdateSchema.parse({
-        productIds: Array.from(selectedIds),
-        discountPercentage: discount,
-      });
-
-      onSubmit({
-        productIds: validated.productIds,
-        discountPercentage: validated.discountPercentage,
-        onSuccess: () => {
-          onClose();
-          setSelectedIds(new Set());
-          setDiscount("");
-          setErrors({});
-        },
-      });
-    } catch (err) {
-      if (err instanceof ZodError) {
-        const fieldErrors: Record<string, string> = {};
-        err.issues.forEach((issue) => {
-          const field = issue.path[0] as string;
-          fieldErrors[field] = issue.message;
+      try {
+        const validated = bulkPriceUpdateSchema.parse({
+          productIds: Array.from(selectedIds),
+          discountPercentage: discount,
         });
-        setErrors(fieldErrors);
-      }
-    }
-  };
 
-  const handleClose = () => {
+        onSubmit({
+          productIds: validated.productIds,
+          discountPercentage: validated.discountPercentage,
+          onSuccess: () => {
+            onClose();
+            setSelectedIds(new Set());
+            setDiscount("");
+            setErrors({});
+          },
+        });
+      } catch (err) {
+        if (err instanceof ZodError) {
+          const fieldErrors: Record<string, string> = {};
+          err.issues.forEach((issue) => {
+            const field = issue.path[0] as string;
+            fieldErrors[field] = issue.message;
+          });
+          setErrors(fieldErrors);
+        }
+      }
+    },
+    [selectedIds, discount, onSubmit, onClose]
+  );
+
+  const handleClose = useCallback(() => {
     onClose();
-  };
+  }, [onClose]);
+
+  const handleSelection = useCallback(
+    (_event: React.SyntheticEvent, newValue: Product[]) => {
+      const newSelectedIds = new Set(
+        newValue.map((product: Product) => product.id)
+      );
+      setSelectedIds(newSelectedIds);
+      // Clear validation error when user starts selecting products
+      if (errors.productIds) {
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors.productIds;
+          return newErrors;
+        });
+      }
+    },
+    [errors.productIds]
+  );
 
   return (
     <Modal
@@ -95,20 +117,7 @@ function BulkPriceDialogComponent({
           multiple
           options={products}
           value={products.filter((product) => selectedIds.has(product.id))}
-          onChange={(_, newValue) => {
-            const newSelectedIds = new Set(
-              newValue.map((product) => product.id)
-            );
-            setSelectedIds(newSelectedIds);
-            // Clear validation error when user starts selecting products
-            if (errors.productIds) {
-              setErrors((prev) => {
-                const newErrors = { ...prev };
-                delete newErrors.productIds;
-                return newErrors;
-              });
-            }
-          }}
+          onChange={handleSelection}
           getOptionLabel={(product) =>
             `${product.name} - $${product.price.toFixed(2)}`
           }

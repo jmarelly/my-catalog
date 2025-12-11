@@ -73,7 +73,9 @@ export default class ProductService {
     const whereCondition = this.productModel.buildSearchCondition(search);
 
     if (page === undefined && limit === undefined) {
-      const productList = this.productModel.findAll();
+      const productList = this.productModel.findAll({
+        condition: whereCondition,
+      });
 
       return {
         data: await this.populateCategories(productList),

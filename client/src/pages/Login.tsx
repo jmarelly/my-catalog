@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
@@ -8,15 +8,15 @@ import {
   TextField,
   Button,
   Alert,
-} from '@mui/material';
-import { Login as LoginIcon } from '@mui/icons-material';
-import { useAuth } from '../hooks/useAuth';
-import { loginSchema } from '../schemas/auth.schema';
-import { ZodError } from 'zod';
+} from "@mui/material";
+import { Login as LoginIcon } from "@mui/icons-material";
+import { useAuth } from "../hooks/useAuth";
+import { loginSchema } from "../schemas/auth.schema";
+import { ZodError } from "zod";
 
 export function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export function Login() {
     try {
       const validated = loginSchema.parse({ username, password });
       await login(validated.username, validated.password);
-      navigate('/admin');
+      navigate("/admin");
     } catch (err) {
       if (err instanceof ZodError) {
         const fieldErrors: Record<string, string> = {};
@@ -41,7 +41,7 @@ export function Login() {
         });
         setErrors(fieldErrors);
       } else {
-        setErrors({ general: 'Invalid username or password' });
+        setErrors({ general: "Invalid username or password" });
       }
     } finally {
       setIsLoading(false);
@@ -51,13 +51,13 @@ export function Login() {
   return (
     <Box
       sx={{
-        minHeight: 'calc(100vh - 200px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: "calc(100vh - 200px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Card sx={{ width: '100%', maxWidth: 400 }}>
+      <Card sx={{ width: "100%", maxWidth: 400 }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h4" align="center" gutterBottom fontWeight={700}>
             Welcome Back
@@ -101,7 +101,7 @@ export function Login() {
               startIcon={<LoginIcon />}
               sx={{ mt: 3, mb: 2 }}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
             </Button>
 
             <Typography variant="body2" align="center" color="text.secondary">

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Typography, Alert } from "@mui/material";
 import { productsApi } from "../services/api";
@@ -17,10 +17,14 @@ export function Home() {
   const [filters, setFilters] = useState<ProductsQuery>({});
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const normalizedFilters = Object.fromEntries(
-    Object.entries(filters).filter(
-      ([, value]) => value !== "" && value !== undefined
-    )
+  const normalizedFilters = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(filters).filter(
+          ([, value]) => value !== "" && value !== undefined
+        )
+      ),
+    [filters]
   );
 
   const { data, isLoading, error } = useQuery({
