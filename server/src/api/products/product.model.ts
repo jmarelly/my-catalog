@@ -28,7 +28,7 @@ export class ProductModel {
       query = query.offset(offset) as typeof query;
     }
 
-    return query.orderBy(asc(products.name)).all();
+    return query.orderBy(sql`${products.name} COLLATE NOCASE`).all();
   }
 
   count(where?: WhereCondition): number {
