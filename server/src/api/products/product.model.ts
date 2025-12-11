@@ -1,6 +1,6 @@
-import { eq, like, or, sql, desc, asc, isNull, and, SQL } from "drizzle-orm";
-import { db } from "../../database";
-import { products, Product, NewProduct } from "./product.schema";
+import { eq, like, or, sql, desc, asc, isNull, and, SQL } from 'drizzle-orm';
+import { db } from '../../database';
+import { products, Product, NewProduct } from './product.schema';
 
 type WhereCondition = SQL<unknown> | undefined;
 
@@ -65,7 +65,7 @@ export class ProductModel {
       .where(
         and(
           sql`${products.id} IN (${sql.join(
-            ids.map((id) => sql`${id}`),
+            ids.map(id => sql`${id}`),
             sql`, `
           )})`,
           isNull(products.deletedAt)

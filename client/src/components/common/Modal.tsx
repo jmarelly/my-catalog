@@ -30,7 +30,13 @@ export function Modal({
       }}
     >
       {title && (
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           {title}
           <IconButton onClick={onClose} size="small">
             <Close />
@@ -38,8 +44,9 @@ export function Modal({
         </DialogTitle>
       )}
       <DialogContent>{children}</DialogContent>
-      {actions && <DialogActions sx={{ px: 3, pb: 2 }}>{actions}</DialogActions>}
+      {actions && (
+        <DialogActions sx={{ px: 3, pb: 2 }}>{actions}</DialogActions>
+      )}
     </Dialog>
   );
 }
-

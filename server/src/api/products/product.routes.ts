@@ -1,59 +1,59 @@
-import { Router } from "express";
-import ProductController from "./product.controller";
-import { catchAsync } from "../../error-handlers/catchAsync";
+import { Router } from 'express';
+import ProductController from './product.controller';
+import { catchAsync } from '../../error-handlers/catchAsync';
 import {
   authenticate,
   authorizeAdmin,
-} from "../../middlewares/auth.middleware";
-import { validate } from "../../middlewares/validate.middleware";
-import { productService } from "../../container";
+} from '../../middlewares/auth.middleware';
+import { validate } from '../../middlewares/validate.middleware';
+import { productService } from '../../container';
 import {
   createProductSchema,
   updateProductSchema,
   bulkPriceUpdateSchema,
   getProductsQuerySchema,
   productIdSchema,
-} from "../../shared/schemas/product.schema";
+} from '../../shared/schemas/product.schema';
 
 const router = Router();
 const productController = new ProductController(productService);
 
 router.get(
-  "/",
-  validate(getProductsQuerySchema, "query"),
+  '/',
+  validate(getProductsQuerySchema, 'query'),
   catchAsync(productController.getProducts)
 );
 
 router.post(
-  "/",
+  '/',
   authenticate,
   authorizeAdmin,
-  validate(createProductSchema, "body"),
+  validate(createProductSchema, 'body'),
   catchAsync(productController.createProduct)
 );
 
 router.put(
-  "/:id",
+  '/:id',
   authenticate,
   authorizeAdmin,
-  validate(productIdSchema, "params"),
-  validate(updateProductSchema, "body"),
+  validate(productIdSchema, 'params'),
+  validate(updateProductSchema, 'body'),
   catchAsync(productController.updateProduct)
 );
 
 router.delete(
-  "/:id",
+  '/:id',
   authenticate,
   authorizeAdmin,
-  validate(productIdSchema, "params"),
+  validate(productIdSchema, 'params'),
   catchAsync(productController.deleteProduct)
 );
 
 router.post(
-  "/bulk-price-update",
+  '/bulk-price-update',
   authenticate,
   authorizeAdmin,
-  validate(bulkPriceUpdateSchema, "body"),
+  validate(bulkPriceUpdateSchema, 'body'),
   catchAsync(productController.bulkPriceUpdate)
 );
 

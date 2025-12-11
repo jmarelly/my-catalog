@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import type {
   Product,
   Category,
@@ -10,25 +10,25 @@ import type {
   BulkPriceUpdate,
   LoginCredentials,
   AuthResponse,
-} from "../types";
+} from '../types';
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: 'http://localhost:3000/api/v1',
   withCredentials: true,
 });
 
 export const authApi = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    const { data } = await api.post("/auth/login", credentials);
+    const { data } = await api.post('/auth/login', credentials);
     return data;
   },
 
   logout: async (): Promise<void> => {
-    await api.post("/auth/logout");
+    await api.post('/auth/logout');
   },
 
   me: async (): Promise<User> => {
-    const { data } = await api.get("/auth/me");
+    const { data } = await api.get('/auth/me');
     return data;
   },
 };
@@ -37,12 +37,12 @@ export const productsApi = {
   getAll: async (
     query?: ProductsQuery
   ): Promise<PaginatedResponse<Product>> => {
-    const { data } = await api.get("/products", { params: query });
+    const { data } = await api.get('/products', { params: query });
     return data;
   },
 
   create: async (product: CreateProduct): Promise<Product> => {
-    const { data } = await api.post("/products", product);
+    const { data } = await api.post('/products', product);
     return data;
   },
 
@@ -58,14 +58,14 @@ export const productsApi = {
   bulkPriceUpdate: async (
     payload: BulkPriceUpdate
   ): Promise<{ message: string; data: Product[] }> => {
-    const { data } = await api.post("/products/bulk-price-update", payload);
+    const { data } = await api.post('/products/bulk-price-update', payload);
     return data;
   },
 };
 
 export const categoriesApi = {
   getAll: async (): Promise<Category[]> => {
-    const { data } = await api.get("/categories");
+    const { data } = await api.get('/categories');
     return data;
   },
 };

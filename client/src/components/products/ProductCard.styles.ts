@@ -14,4 +14,3 @@ export const StyledCard = styled(Card)`
     box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
   }
 `;
-

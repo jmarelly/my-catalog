@@ -7,15 +7,14 @@ const sizeStyles = {
   large: { fontSize: '2rem', fontWeight: 700 },
 };
 
-export function PriceText({ price, size = 'medium', ...props }: PriceTextProps) {
+export function PriceText({
+  price,
+  size = 'medium',
+  ...props
+}: PriceTextProps) {
   return (
-    <Typography
-      color="primary"
-      sx={sizeStyles[size]}
-      {...props}
-    >
+    <Typography color="primary" sx={sizeStyles[size]} {...props}>
       ${price.toFixed(2)}
     </Typography>
   );
 }
-

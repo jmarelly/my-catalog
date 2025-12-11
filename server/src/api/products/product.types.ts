@@ -1,4 +1,4 @@
-import { Product } from "./product.schema";
+import { Product } from './product.schema';
 
 export type TCreateProduct = {
   name: string;

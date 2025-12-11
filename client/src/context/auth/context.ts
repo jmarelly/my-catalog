@@ -10,4 +10,3 @@ export type AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
-

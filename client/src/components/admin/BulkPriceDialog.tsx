@@ -1,4 +1,4 @@
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, memo } from 'react';
 import {
   TextField,
   Button,
@@ -7,13 +7,13 @@ import {
   Autocomplete,
   Checkbox,
   Chip,
-} from "@mui/material";
-import { CheckBoxOutlineBlank, CheckBox } from "@mui/icons-material";
-import { Modal } from "../common/Modal";
-import { bulkPriceUpdateSchema } from "../../schemas/product.schema";
-import { ZodError } from "zod";
-import type { BulkPriceDialogProps } from "./types";
-import type { Product } from "../../types";
+} from '@mui/material';
+import { CheckBoxOutlineBlank, CheckBox } from '@mui/icons-material';
+import { Modal } from '../common/Modal';
+import { bulkPriceUpdateSchema } from '../../schemas/product.schema';
+import { useValidationErrors } from '../../hooks/useValidationErrors';
+import type { BulkPriceDialogProps } from './types';
+import type { Product } from '../../types';
 
 function BulkPriceDialogComponent({
   open,
@@ -22,8 +22,9 @@ function BulkPriceDialogComponent({
   products,
 }: BulkPriceDialogProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [discount, setDiscount] = useState<string>("");
+  const [discount, setDiscount] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { processZodError } = useValidationErrors();
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -42,22 +43,18 @@ function BulkPriceDialogComponent({
           onSuccess: () => {
             onClose();
             setSelectedIds(new Set());
-            setDiscount("");
+            setDiscount('');
             setErrors({});
           },
         });
       } catch (err) {
-        if (err instanceof ZodError) {
-          const fieldErrors: Record<string, string> = {};
-          err.issues.forEach((issue) => {
-            const field = issue.path[0] as string;
-            fieldErrors[field] = issue.message;
-          });
+        const fieldErrors = processZodError(err);
+        if (fieldErrors) {
           setErrors(fieldErrors);
         }
       }
     },
-    [selectedIds, discount, onSubmit, onClose]
+    [selectedIds, discount, onSubmit, onClose, processZodError]
   );
 
   const handleClose = useCallback(() => {
@@ -70,9 +67,9 @@ function BulkPriceDialogComponent({
         newValue.map((product: Product) => product.id)
       );
       setSelectedIds(newSelectedIds);
-      // Clear validation error when user starts selecting products
+
       if (errors.productIds) {
-        setErrors((prev) => {
+        setErrors(prev => {
           const newErrors = { ...prev };
           delete newErrors.productIds;
           return newErrors;
@@ -102,7 +99,7 @@ function BulkPriceDialogComponent({
           type="number"
           fullWidth
           value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
+          onChange={e => setDiscount(e.target.value)}
           margin="normal"
           placeholder="e.g., 10 for 10% off"
           error={!!errors.discountPercentage}
@@ -116,29 +113,32 @@ function BulkPriceDialogComponent({
         <Autocomplete
           multiple
           options={products}
-          value={products.filter((product) => selectedIds.has(product.id))}
+          value={products.filter(product => selectedIds.has(product.id))}
           onChange={handleSelection}
-          getOptionLabel={(product) =>
+          getOptionLabel={product =>
             `${product.name} - $${product.price.toFixed(2)}`
           }
-          renderOption={(props, product, { selected }) => (
-            <li {...props}>
-              <Checkbox
-                icon={<CheckBoxOutlineBlank fontSize="small" />}
-                checkedIcon={<CheckBox fontSize="small" />}
-                style={{ marginRight: 8 }}
-                checked={selected}
-              />
-              <Box>
-                <Typography variant="body2" fontWeight={500}>
-                  {product.name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {product.description} • ${product.price.toFixed(2)}
-                </Typography>
-              </Box>
-            </li>
-          )}
+          renderOption={(props, product, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <li key={key} {...optionProps}>
+                <Checkbox
+                  icon={<CheckBoxOutlineBlank fontSize="small" />}
+                  checkedIcon={<CheckBox fontSize="small" />}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                <Box>
+                  <Typography variant="body2" fontWeight={500}>
+                    {product.name}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {product.description} • ${product.price.toFixed(2)}
+                  </Typography>
+                </Box>
+              </li>
+            );
+          }}
           renderTags={(selected, getTagProps) =>
             selected.map((product, index) => (
               <Chip
@@ -154,7 +154,7 @@ function BulkPriceDialogComponent({
               />
             ))
           }
-          renderInput={(params) => (
+          renderInput={params => (
             <TextField
               {...params}
               placeholder="Search and select products..."
@@ -168,9 +168,9 @@ function BulkPriceDialogComponent({
           componentsProps={{
             popper: {
               sx: {
-                "& .MuiAutocomplete-listbox": {
-                  "& .MuiAutocomplete-option": {
-                    padding: "8px 16px",
+                '& .MuiAutocomplete-listbox': {
+                  '& .MuiAutocomplete-option': {
+                    padding: '8px 16px',
                   },
                 },
               },

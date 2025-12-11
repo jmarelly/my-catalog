@@ -1,11 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Toolbar, Typography, Button, Box, Chip } from "@mui/material";
-import { Login as LoginIcon, Logout as LogoutIcon } from "@mui/icons-material";
-import { useAuth } from "../../hooks/useAuth";
-import { StyledAppBar, Logo } from "./Header.styles";
-import StoreIcon from "@mui/icons-material/Store";
-import HomeIcon from "@mui/icons-material/Home";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import { Link, useNavigate } from 'react-router-dom';
+import { Toolbar, Typography, Button, Box, Chip } from '@mui/material';
+import { Login as LoginIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { useAuth } from '../../hooks/useAuth';
+import { StyledAppBar, Logo } from './Header.styles';
+import StoreIcon from '@mui/icons-material/Store';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export function Header() {
   const { user, isAdmin, logout } = useAuth();
@@ -13,14 +13,14 @@ export function Header() {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/");
+    navigate('/');
   };
 
   return (
     <StyledAppBar position="sticky" elevation={0}>
-      <Toolbar sx={{ maxWidth: 1400, width: "100%", mx: "auto", px: 3 }}>
+      <Toolbar sx={{ maxWidth: 1400, width: '100%', mx: 'auto', px: 3 }}>
         <Logo to="/">
-          <HomeIcon sx={{ color: "primary.main" }} />
+          <HomeIcon sx={{ color: 'primary.main' }} />
           <Typography variant="h6" fontWeight={700}>
             Strauss
           </Typography>
@@ -51,13 +51,13 @@ export function Header() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {user ? (
             <>
               <Chip
                 label={`Hello ${user.username}!`}
                 size="small"
-                sx={{ bgcolor: "background.paper" }}
+                sx={{ bgcolor: 'background.paper' }}
               />
               <Button
                 onClick={handleLogout}

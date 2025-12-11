@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
-import { ProductModel } from "./product.model";
-import { CategoryModel } from "../categories/category.model";
-import { Product, NewProduct } from "./product.schema";
-import { NotFoundError, AppError } from "../../utils/appError";
+import { v4 as uuidv4 } from 'uuid';
+import { ProductModel } from './product.model';
+import { CategoryModel } from '../categories/category.model';
+import { Product, NewProduct } from './product.schema';
+import { NotFoundError, AppError } from '../../utils/appError';
 import {
   TCreateProduct,
   TUpdateProduct,
@@ -10,7 +10,7 @@ import {
   TProductWithCategory,
   TPaginatedResponse,
   TBulkPriceUpdate,
-} from "./product.types";
+} from './product.types';
 
 export default class ProductService {
   constructor(
@@ -31,14 +31,14 @@ export default class ProductService {
   private async populateCategories(
     productList: Product[]
   ): Promise<TProductWithCategory[]> {
-    const categoryIds = [...new Set(productList.map((p) => p.categoryId))];
+    const categoryIds = [...new Set(productList.map(p => p.categoryId))];
     const categoryList = this.categoryModel.findByIds(categoryIds);
 
     const categoryMap = new Map(
-      categoryList.map((c) => [c.id, { id: c.id, name: c.name }])
+      categoryList.map(c => [c.id, { id: c.id, name: c.name }])
     );
 
-    return productList.map((product) => ({
+    return productList.map(product => ({
       ...product,
       category: categoryMap.get(product.categoryId),
     }));

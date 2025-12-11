@@ -1,17 +1,17 @@
 const requiredEnvVars = [
-  "JWT_SECRET",
-  "DATABASE_PATH",
-  "CLIENT_URL",
-  "PORT",
-  "RATE_LIMIT_WINDOW_MS",
-  "RATE_LIMIT_MAX_REQUESTS",
-  "AUTH_RATE_LIMIT_MAX_REQUESTS",
+  'JWT_SECRET',
+  'DATABASE_PATH',
+  'CLIENT_URL',
+  'PORT',
+  'RATE_LIMIT_WINDOW_MS',
+  'RATE_LIMIT_MAX_REQUESTS',
+  'AUTH_RATE_LIMIT_MAX_REQUESTS',
 ] as const;
 
 function validateEnv() {
-  const missing = requiredEnvVars.filter((key) => !process.env[key]);
-  if (missing.length > 0 && process.env.NODE_ENV === "production") {
-    throw new Error(`Missing required env vars: ${missing.join(", ")}`);
+  const missing = requiredEnvVars.filter(key => !process.env[key]);
+  if (missing.length > 0 && process.env.NODE_ENV === 'production') {
+    throw new Error(`Missing required env vars: ${missing.join(', ')}`);
   }
 }
 
@@ -42,6 +42,6 @@ export const config = {
     authMaxRequests: parseInt(process.env.AUTH_RATE_LIMIT_MAX_REQUESTS!, 10),
   },
 
-  isProduction: process.env.NODE_ENV === "production",
-  isDevelopment: process.env.NODE_ENV === "development",
+  isProduction: process.env.NODE_ENV === 'production',
+  isDevelopment: process.env.NODE_ENV === 'development',
 } as const;

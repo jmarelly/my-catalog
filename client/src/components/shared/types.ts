@@ -1,4 +1,4 @@
-import type { Product, CreateProduct, Category } from "../../types";
+import type { Product, CreateProduct, Category } from '../../types';
 
 export interface ProductCheckboxProps {
   product: Product;

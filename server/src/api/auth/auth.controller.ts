@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import UserService from "../users/user.service";
-import { AppError } from "../../utils/appError";
-import { config } from "../../config";
-import { logger } from "../../utils/logger";
-import { AuthRequest } from "./auth.types";
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import UserService from '../users/user.service';
+import { AppError } from '../../utils/appError';
+import { config } from '../../config';
+import { logger } from '../../utils/logger';
+import { AuthRequest } from './auth.types';
 
 const COOKIE_MAX_AGE = config.jwt.expiresInSeconds * 1000;
 
@@ -16,8 +16,8 @@ export default class AuthController {
 
     const user = await this.userService.getUserByUsername(username);
     if (!user) {
-      logger.warn({ username }, "Login failed - user not found");
-      throw new AppError("Invalid username or password", 401);
+      logger.warn({ username }, 'Login failed - user not found');
+      throw new AppError('Invalid username or password', 401);
     }
 
     const isValidPassword = await this.userService.verifyPassword(
@@ -25,8 +25,8 @@ export default class AuthController {
       user.password
     );
     if (!isValidPassword) {
-      logger.warn({ username }, "Login failed - invalid password");
-      throw new AppError("Invalid username or password", 401);
+      logger.warn({ username }, 'Login failed - invalid password');
+      throw new AppError('Invalid username or password', 401);
     }
 
     const token = jwt.sign(
@@ -35,14 +35,14 @@ export default class AuthController {
       { expiresIn: config.jwt.expiresInSeconds }
     );
 
-    res.cookie("token", token, {
+    res.cookie('token', token, {
       httpOnly: true,
       secure: config.isProduction,
-      sameSite: "lax",
+      sameSite: 'lax',
       maxAge: COOKIE_MAX_AGE,
     });
 
-    logger.info({ userId: user.id, username: user.username }, "User logged in");
+    logger.info({ userId: user.id, username: user.username }, 'User logged in');
 
     return res.status(200).json({
       user: {
@@ -54,15 +54,15 @@ export default class AuthController {
   };
 
   logout = async (req: Request, res: Response) => {
-    res.clearCookie("token", {
+    res.clearCookie('token', {
       httpOnly: true,
       secure: config.isProduction,
-      sameSite: "lax",
+      sameSite: 'lax',
     });
 
-    logger.info("User logged out");
+    logger.info('User logged out');
 
-    return res.status(200).json({ message: "Logged out successfully" });
+    return res.status(200).json({ message: 'Logged out successfully' });
   };
 
   me = async (req: AuthRequest, res: Response) => {

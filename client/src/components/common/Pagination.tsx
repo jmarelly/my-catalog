@@ -1,7 +1,11 @@
 import { Box, Pagination as MuiPagination } from '@mui/material';
 import type { PaginationProps } from './types';
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   if (totalPages <= 1) return null;
 
   return (
@@ -18,4 +22,3 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
     </Box>
   );
 }
-

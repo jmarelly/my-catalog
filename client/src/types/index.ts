@@ -1,7 +1,7 @@
 export type User = {
   id: string;
   username: string;
-  role: "admin" | "customer";
+  role: 'admin' | 'customer';
 };
 
 export type Category = {

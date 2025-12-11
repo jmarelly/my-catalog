@@ -1,17 +1,16 @@
-import pino from "pino";
-import { config } from "../config";
+import pino from 'pino';
+import { config } from '../config';
 
 export const logger = pino({
-  level: config.isDevelopment ? "debug" : "info",
+  level: config.isDevelopment ? 'debug' : 'info',
   transport: config.isDevelopment
     ? {
-        target: "pino-pretty",
+        target: 'pino-pretty',
         options: {
           colorize: true,
-          translateTime: "SYS:standard",
-          ignore: "pid,hostname",
+          translateTime: 'SYS:standard',
+          ignore: 'pid,hostname',
         },
       }
     : undefined,
 });
-

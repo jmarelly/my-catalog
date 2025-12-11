@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { Modal } from '../common/Modal';
 import { productSchema } from '../../schemas/product.schema';
-import { ZodError } from 'zod';
+import { useValidationErrors } from '../../hooks/useValidationErrors';
 import type { Product, CreateProduct } from '../../types';
 import type { ProductFormDialogProps, ProductFormData } from './types';
 
@@ -22,9 +22,12 @@ export function ProductFormDialog({
   product,
   categories,
 }: ProductFormDialogProps) {
-  const [formData, setFormData] = useState<ProductFormData>(() => getInitialFormData(product));
+  const [formData, setFormData] = useState<ProductFormData>(() =>
+    getInitialFormData(product)
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const isEditing = !!product;
+  const { processZodError } = useValidationErrors();
 
   const resetForm = () => {
     setFormData(getInitialFormData(product));
@@ -43,7 +46,9 @@ export function ProductFormDialog({
     }
   };
 
-  const validateAndSubmitForm = (): { success: true; data: CreateProduct } | { success: false; errors: Record<string, string> } => {
+  const validateAndSubmitForm = ():
+    | { success: true; data: CreateProduct }
+    | { success: false; errors: Record<string, string> } => {
     try {
       const validatedData = productSchema.parse({
         name: formData.name,
@@ -54,17 +59,11 @@ export function ProductFormDialog({
 
       return { success: true, data: validatedData };
     } catch (err) {
-      if (err instanceof ZodError) {
-        const fieldErrors = err.issues.reduce((errors: Record<string, string>, issue) => {
-          const field = issue.path[0] as string;
-          errors[field] = issue.message;
-          return errors;
-        }, {});
-
-        return { success: false, errors: fieldErrors };
-      }
-
-      return { success: false, errors: { general: 'An unexpected error occurred' } };
+      const fieldErrors = processZodError(err);
+      return {
+        success: false,
+        errors: fieldErrors || { general: 'An unexpected error occurred' },
+      };
     }
   };
 
@@ -92,7 +91,7 @@ export function ProductFormDialog({
           label="Name"
           fullWidth
           value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          onChange={e => setFormData({ ...formData, name: e.target.value })}
           margin="normal"
           error={!!errors.name}
           helperText={errors.name}
@@ -102,7 +101,7 @@ export function ProductFormDialog({
           type="number"
           fullWidth
           value={formData.price}
-          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+          onChange={e => setFormData({ ...formData, price: e.target.value })}
           margin="normal"
           slotProps={{ htmlInput: { step: '0.01' } }}
           error={!!errors.price}
@@ -113,9 +112,11 @@ export function ProductFormDialog({
           <Select
             value={formData.categoryId}
             label="Category"
-            onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+            onChange={e =>
+              setFormData({ ...formData, categoryId: e.target.value })
+            }
           >
-            {categories.map((cat) => (
+            {categories.map(cat => (
               <MenuItem key={cat.id} value={cat.id}>
                 {cat.name}
               </MenuItem>
@@ -133,7 +134,9 @@ export function ProductFormDialog({
           multiline
           rows={3}
           value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onChange={e =>
+            setFormData({ ...formData, description: e.target.value })
+          }
           margin="normal"
           error={!!errors.description}
           helperText={errors.description}

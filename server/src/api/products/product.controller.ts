@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import ProductService from "./product.service";
+import { Request, Response } from 'express';
+import ProductService from './product.service';
 import {
   TGetProductsQuery,
   TCreateProduct,
   TUpdateProduct,
   TBulkPriceUpdate,
-} from "./product.types";
+} from './product.types';
 
 export default class ProductController {
   constructor(private productService: ProductService) {}
@@ -42,7 +42,7 @@ export default class ProductController {
     if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
       return res
         .status(400)
-        .json({ message: "productIds must be a non-empty array" });
+        .json({ message: 'productIds must be a non-empty array' });
     }
 
     if (
@@ -52,7 +52,7 @@ export default class ProductController {
     ) {
       return res
         .status(400)
-        .json({ message: "discountPercentage must be between 0 and 100" });
+        .json({ message: 'discountPercentage must be between 0 and 100' });
     }
 
     const updatedProducts = await this.productService.bulkPriceUpdate({

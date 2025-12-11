@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
-import { db } from "../../database";
-import { users, User, NewUser } from "./user.schema";
+import { eq } from 'drizzle-orm';
+import { db } from '../../database';
+import { users, User, NewUser } from './user.schema';
 
 export class UserModel {
   findById(id: string): User | undefined {

@@ -15,4 +15,3 @@ export const Logo = styled(Link)`
   color: #1e293b;
   text-decoration: none;
 `;
-

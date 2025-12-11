@@ -1,8 +1,8 @@
-import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
-import { UserModel } from "./user.model";
-import { User, NewUser } from "./user.schema";
-import { TCreateUser } from "./user.types";
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+import { UserModel } from './user.model';
+import { User, NewUser } from './user.schema';
+import { TCreateUser } from './user.types';
 
 const SALT_ROUNDS = 10;
 
@@ -26,7 +26,7 @@ export default class UserService {
       id: uuidv4(),
       username: props.username.toLowerCase(),
       password: hashedPassword,
-      role: props.role || "admin",
+      role: props.role || 'admin',
     };
 
     this.userModel.create(newUser);

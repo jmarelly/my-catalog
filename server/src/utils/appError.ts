@@ -6,7 +6,7 @@ export class AppError extends Error {
   constructor(message?: string, statusCode?: number | null) {
     super(message);
     this.statusCode = statusCode ?? 500;
-    this.status = `${this.statusCode}`.startsWith("4") ? "Fail" : "Error";
+    this.status = `${this.statusCode}`.startsWith('4') ? 'Fail' : 'Error';
     this.isOperational = this.statusCode < 500;
 
     Object.setPrototypeOf(this, new.target.prototype);

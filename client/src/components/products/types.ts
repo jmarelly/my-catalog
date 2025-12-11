@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+import type { Product } from '../../types';
 
 export type ProductCardProps = {
   product: Product;
@@ -11,6 +11,6 @@ export type ProductGridProps = {
 };
 
 export type ProductFiltersProps = {
-  onFilterChange: (filters: import("../../types").ProductsQuery) => void;
+  onFilterChange: (filters: import('../../types').ProductsQuery) => void;
   totalItems: number;
 };

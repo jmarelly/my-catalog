@@ -1,6 +1,6 @@
-import type { ChipProps, DialogProps } from "@mui/material";
-import type { TypographyProps } from "@mui/material";
-import type { ReactNode } from "react";
+import type { ChipProps, DialogProps } from '@mui/material';
+import type { TypographyProps } from '@mui/material';
+import type { ReactNode } from 'react';
 
 export type ModalProps = {
   open: boolean;
@@ -8,7 +8,7 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   actions?: ReactNode;
-  maxWidth?: DialogProps["maxWidth"];
+  maxWidth?: DialogProps['maxWidth'];
   fullWidth?: boolean;
 };
 
@@ -20,14 +20,14 @@ export type PaginationProps = {
 
 export type PriceTextProps = {
   price: number;
-  size?: "small" | "medium" | "large";
-} & Omit<TypographyProps, "children">;
+  size?: 'small' | 'medium' | 'large';
+} & Omit<TypographyProps, 'children'>;
 
 export type CategoryChipProps = {
   name: string | undefined;
   showIcon?: boolean;
-  size?: ChipProps["size"];
-  color?: ChipProps["color"];
+  size?: ChipProps['size'];
+  color?: ChipProps['color'];
 };
 
 export type PageHeaderProps = {

@@ -1,14 +1,14 @@
-import { config } from "../config";
-import { logger } from "../utils/logger";
+import { config } from '../config';
+import { logger } from '../utils/logger';
 import {
   DatabaseType,
   createDatabaseConnection,
   createMigrator,
-} from "./connections";
+} from './connections';
 
-import { users } from "../api/users/user.schema";
-import { categories } from "../api/categories/category.schema";
-import { products } from "../api/products/product.schema";
+import { users } from '../api/users/user.schema';
+import { categories } from '../api/categories/category.schema';
+import { products } from '../api/products/product.schema';
 
 export const schema = { users, categories, products };
 
@@ -20,8 +20,8 @@ export const db = createDatabaseConnection(
 export function initializeDatabase() {
   logger.info(
     { type: config.database.type, path: config.database.path },
-    "🗄️  Connecting to database..."
+    '🗄️  Connecting to database...'
   );
   createMigrator(db, config.database.type as DatabaseType);
-  logger.info("📦 Database migrations applied");
+  logger.info('📦 Database migrations applied');
 }

@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { Navigate } from "react-router-dom";
+import { useState, useCallback } from 'react';
+import { Navigate } from 'react-router-dom';
 import {
   Typography,
   Button,
@@ -11,17 +11,17 @@ import {
   TableRow,
   Paper,
   IconButton,
-} from "@mui/material";
-import { Add, Edit, Delete, Percent } from "@mui/icons-material";
-import { useAuth } from "../hooks/useAuth";
-import { useProductsData, useProductMutations } from "../hooks/useProducts";
-import { Pagination } from "../components/common/Pagination";
-import { PageHeader } from "../components/common/PageHeader";
-import { CategoryChip } from "../components/common/CategoryChip";
-import { PriceText } from "../components/common/PriceText";
-import { ProductFormDialog } from "../components/shared/ProductFormDialog";
-import { BulkPriceDialog } from "../components/admin/BulkPriceDialog";
-import type { Product, CreateProduct } from "../types";
+} from '@mui/material';
+import { Add, Edit, Delete, Percent } from '@mui/icons-material';
+import { useAuth } from '../hooks/useAuth';
+import { useProductsData, useProductMutations } from '../hooks/useProducts';
+import { Pagination } from '../components/common/Pagination';
+import { PageHeader } from '../components/common/PageHeader';
+import { CategoryChip } from '../components/common/CategoryChip';
+import { PriceText } from '../components/common/PriceText';
+import { ProductFormDialog } from '../components/shared/ProductFormDialog';
+import { BulkPriceDialog } from '../components/admin/BulkPriceDialog';
+import type { Product, CreateProduct } from '../types';
 
 export function Admin() {
   const { isAdmin, isLoading: authLoading } = useAuth();
@@ -111,7 +111,7 @@ export function Admin() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {products.map(product => (
               <TableRow key={product.id} hover>
                 <TableCell>
                   <Typography fontWeight={500}>{product.name}</Typography>
@@ -152,7 +152,7 @@ export function Admin() {
       )}
 
       <ProductFormDialog
-        key={editingProduct?.id || "new"}
+        key={editingProduct?.id || 'new'}
         open={isCreateOpen || !!editingProduct}
         onClose={() => {
           setIsCreateOpen(false);

@@ -1,16 +1,16 @@
-import { useState, useCallback, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Box, Typography, Alert } from "@mui/material";
-import { productsApi } from "../services/api";
-import { ProductGrid } from "../components/products/ProductGrid";
-import { ProductFilters } from "../components/products/ProductFilters";
-import { Pagination } from "../components/common/Pagination";
-import { Modal } from "../components/common/Modal";
-import { LoadingSpinner } from "../components/common/LoadingSpinner";
-import { CategoryChip } from "../components/common/CategoryChip";
-import { PriceText } from "../components/common/PriceText";
-import type { Product, ProductsQuery } from "../types";
-import { GradientTitle } from "./Home.styles";
+import { useState, useCallback, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Box, Typography, Alert } from '@mui/material';
+import { productsApi } from '../services/api';
+import { ProductGrid } from '../components/products/ProductGrid';
+import { ProductFilters } from '../components/products/ProductFilters';
+import { Pagination } from '../components/common/Pagination';
+import { Modal } from '../components/common/Modal';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
+import { CategoryChip } from '../components/common/CategoryChip';
+import { PriceText } from '../components/common/PriceText';
+import type { Product, ProductsQuery } from '../types';
+import { GradientTitle } from './Home.styles';
 
 export function Home() {
   const [page, setPage] = useState(1);
@@ -21,14 +21,14 @@ export function Home() {
     () =>
       Object.fromEntries(
         Object.entries(filters).filter(
-          ([, value]) => value !== "" && value !== undefined
+          ([, value]) => value !== '' && value !== undefined
         )
       ),
     [filters]
   );
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["products", page, normalizedFilters],
+    queryKey: ['products', page, normalizedFilters],
     queryFn: () => productsApi.getAll({ ...filters, page, limit: 8 }),
   });
 

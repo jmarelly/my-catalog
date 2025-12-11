@@ -1,6 +1,6 @@
-import { eq, sql } from "drizzle-orm";
-import { db } from "../../database";
-import { categories, Category } from "./category.schema";
+import { eq, sql } from 'drizzle-orm';
+import { db } from '../../database';
+import { categories, Category } from './category.schema';
 
 export class CategoryModel {
   findAll(): Category[] {
@@ -19,7 +19,7 @@ export class CategoryModel {
       .from(categories)
       .where(
         sql`${categories.id} IN (${sql.join(
-          ids.map((id) => sql`${id}`),
+          ids.map(id => sql`${id}`),
           sql`, `
         )})`
       )
