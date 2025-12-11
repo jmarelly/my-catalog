@@ -22,6 +22,11 @@ export function initializeDatabase() {
     { type: config.database.type, path: config.database.path },
     '🗄️  Connecting to database...'
   );
-  createMigrator(db, config.database.type as DatabaseType);
-  logger.info('📦 Database migrations applied');
+
+  if (config.env === 'production') {
+    createMigrator(db, config.database.type as DatabaseType);
+    logger.info('📦 Database migrations applied');
+  } else {
+    logger.info('📦 Skipping migrations in development (using db:push)');
+  }
 }

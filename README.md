@@ -43,7 +43,10 @@ git clone <your-repo-url>
 cd product-catalog
 
 # Install all dependencies
-npm run install:all
+npm run install
+
+# Initialize the database (one-time setup)
+npm run db:init
 
 # Start development servers (both client and server)
 npm run dev
@@ -57,10 +60,13 @@ The application will be available at:
 ### Individual Server Setup
 
 ```bash
+# Initialize database (if not already done)
+npm run db:init
+
 # Start only client
 npm run client:dev
 
-# Start only server
+# Start only server (in another terminal)
 npm run server:dev
 ```
 
@@ -169,7 +175,7 @@ Import the `ProductCatalog.postman_collection.json` file into Postman to test al
 
 ## Additional Notes
 
-- **Database**: SQLite database is automatically created and seeded on first run
+- **Database**: SQLite database is created and seeded automatically on first server start (after running db:generate and db:push)
 - **Hot Reload**: Both client and server support hot reloading during development
 - **Error Handling**: Comprehensive error handling with user-friendly messages
 - **Security**: JWT authentication with bcrypt password hashing
@@ -181,6 +187,9 @@ Import the `ProductCatalog.postman_collection.json` file into Postman to test al
 # Install dependencies
 npm run install:all
 
+# Database
+npm run db:init         # Initialize database (generate + push schema)
+
 # Development
 npm run dev              # Both client and server
 npm run client:dev       # Client only
@@ -191,8 +200,45 @@ npm run build           # Build both
 npm run client:build    # Build client
 npm run server:build    # Build server
 
-# Database (server directory)
-npm run db:generate     # Generate migrations
-npm run db:push         # Push schema changes
-npm run db:studio       # Open Drizzle Studio
+# Individual Database Commands
+npm run db:generate     # Generate migrations (server directory)
+npm run db:push         # Push schema changes (server directory)
+npm run db:studio       # Open Drizzle Studio (server directory)
+```
+
+## Database Setup
+
+The application uses SQLite with Drizzle ORM for data persistence.
+
+### Initial Setup
+
+Before running the application for the first time, you need to initialize the database:
+
+1. **Run the initialization script**: `npm run db:init`
+   - This generates migrations, applies the schema, and seeds initial data
+2. **Start the server**: `npm run server:dev`
+
+**Note**: In development, the server skips running migrations on startup since the schema is managed via `db:push`. Migrations are only applied in production environments.
+
+The database will be automatically created and populated with:
+
+- **Admin user**: username `admin`, password `admin123`
+- **Sample products** across various categories
+- **Product categories** (Electronics, Clothing, Books, etc.)
+
+### Database Files
+
+- **Schema**: `server/src/database/schema.ts`
+- **Connection**: `server/src/database/connections.ts`
+- **Database file**: `server/store.db` (created automatically)
+- **Migrations**: `server/drizzle/` directory
+
+### Admin Credentials
+
+- **Username**: `admin`
+- **Password**: `admin123`
+- These can also be found in the login modal and server seed script
+
+```
+
 ```

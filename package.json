@@ -8,7 +8,6 @@
     "server"
   ],
   "scripts": {
-    "install:all": "npm install",
     "client:install": "cd client && npm install",
     "server:install": "cd server && npm install",
     "client:dev": "cd client && npm run dev",
@@ -18,7 +17,8 @@
     "client:start": "cd client && npm run preview",
     "server:start": "cd server && npm run start:dev",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
-    "build": "npm run client:build && npm run server:build"
+    "build": "npm run client:build && npm run server:build",
+    "db:init": "cd server && npm run db:generate && npm run db:push && cd .."
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
