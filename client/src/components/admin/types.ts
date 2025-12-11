@@ -1,4 +1,4 @@
-export type BulkPriceDialogProps = {
+export type BulkDiscountDialogProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: {

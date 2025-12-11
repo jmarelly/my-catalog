@@ -1,5 +1,5 @@
 {
-  "name": "product-catalog-server",
+  "name": "strauss-catalog-server",
   "version": "1.0.0",
   "description": "Product catalog API server",
   "main": "dist/index.js",

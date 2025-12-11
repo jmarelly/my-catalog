@@ -30,17 +30,20 @@ npm run preview
 ## Key Features
 
 ### Public Features
+
 - **Product Catalog**: Paginated product browsing
 - **Search**: Real-time product search
 - **Category Filtering**: Filter products by category
 - **Product Details**: Modal view for product information
 
 ### Admin Features
+
 - **Product Management**: Create, edit, delete products
 - **Bulk Operations**: Update prices for multiple products
 - **Authentication**: Secure admin access
 
 ### UI/UX Features
+
 - **Responsive Design**: Mobile-friendly interface
 - **Loading States**: Proper loading indicators
 - **Error Handling**: User-friendly error messages
@@ -50,17 +53,20 @@ npm run preview
 ## Component Architecture
 
 ### Page Components
+
 - `Home.tsx` - Product catalog with search and pagination
 - `Admin.tsx` - Admin dashboard for product management
 - `Login.tsx` - Authentication form
 
 ### Shared Components
+
 - `ProductCard.tsx` - Individual product display
 - `ProductFormDialog.tsx` - Create/edit product form
-- `BulkPriceDialog.tsx` - Bulk price update interface
+- `BulkDiscountDialog.tsx` - Bulk discount update interface
 - `Pagination.tsx` - Pagination controls
 
 ### State Management
+
 - **React Query**: Server state management and caching
 - **React Context**: Authentication state
 - **Local State**: Form states and UI interactions
@@ -71,18 +77,18 @@ The frontend communicates with the backend API through dedicated service functio
 
 ```typescript
 // Authentication
-authApi.login(credentials)
-authApi.me()
-authApi.logout()
+authApi.login(credentials);
+authApi.me();
+authApi.logout();
 
 // Products
-productsApi.getAll({ page, limit, search })
-productsApi.create(productData)
-productsApi.update(id, productData)
-productsApi.delete(id)
+productsApi.getAll({ page, limit, search });
+productsApi.create(productData);
+productsApi.update(id, productData);
+productsApi.delete(id);
 
 // Categories
-categoriesApi.getAll()
+categoriesApi.getAll();
 ```
 
 All API calls include automatic error handling and toast notifications.

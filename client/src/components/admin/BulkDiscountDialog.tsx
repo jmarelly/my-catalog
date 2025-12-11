@@ -13,14 +13,14 @@ import { Modal } from '../common/Modal';
 import { bulkPriceUpdateSchema } from '../../schemas/product.schema';
 import { useValidationErrors } from '../../hooks/useValidationErrors';
 import { useAllProducts } from '../../hooks/useProducts';
-import type { BulkPriceDialogProps } from './types';
+import type { BulkDiscountDialogProps } from './types';
 import type { Product } from '../../types';
 
-function BulkPriceDialogComponent({
+function BulkDiscountDialogComponent({
   open,
   onClose,
   onSubmit,
-}: Omit<BulkPriceDialogProps, 'products'>) {
+}: Omit<BulkDiscountDialogProps, 'products'>) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [discount, setDiscount] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -184,4 +184,4 @@ function BulkPriceDialogComponent({
   );
 }
 
-export const BulkPriceDialog = memo(BulkPriceDialogComponent);
+export const BulkDiscountDialog = memo(BulkDiscountDialogComponent);

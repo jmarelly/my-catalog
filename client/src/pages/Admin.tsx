@@ -21,7 +21,7 @@ import { PageHeader } from '../components/common/PageHeader';
 import { CategoryChip } from '../components/common/CategoryChip';
 import { PriceText } from '../components/common/PriceText';
 import { ProductFormDialog } from '../components/shared/ProductFormDialog';
-import { BulkPriceDialog } from '../components/admin/BulkPriceDialog';
+import { BulkDiscountDialog } from '../components/admin/BulkDiscountDialog';
 import { ProductFilters } from '../components/products/ProductFilters';
 import type { Product, CreateProduct, ProductsQuery } from '../types';
 
@@ -188,7 +188,7 @@ export function Admin() {
       )}
 
       {isBulkOpen && (
-        <BulkPriceDialog
+        <BulkDiscountDialog
           open={true}
           onClose={() => setIsBulkOpen(false)}
           onSubmit={handleBulkSubmit}
