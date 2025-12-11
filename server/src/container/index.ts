@@ -6,12 +6,12 @@ import ProductService from '../api/products/product.service';
 import CategoryService from '../api/categories/category.service';
 import UserService from '../api/users/user.service';
 
-// Model
+// Models
 const productModel = new ProductModel();
 const categoryModel = new CategoryModel();
 const userModel = new UserModel();
 
-// Service
+// Services
 const productService = new ProductService(productModel, categoryModel);
 const categoryService = new CategoryService(categoryModel);
 const userService = new UserService(userModel);
