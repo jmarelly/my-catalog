@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProductModel } from './product.model';
 import { CategoryModel } from '../categories/category.model';
 import { Product, NewProduct } from './product.schema';
-import { NotFoundError, AppError } from '../../utils/appError';
+import { AppError } from '../../utils/appError';
 import {
   TCreateProduct,
   TUpdateProduct,
@@ -120,7 +120,7 @@ export default class ProductService {
     const product = this.productModel.findById(id);
 
     if (!product) {
-      throw new NotFoundError(`Product with id ${id} not found`);
+      throw new AppError(`Product with id ${id} not found`, 404);
     }
 
     return this.populateCategory(product);
@@ -144,7 +144,7 @@ export default class ProductService {
     const changes = this.productModel.update(id, props);
 
     if (changes === 0) {
-      throw new NotFoundError(`Product with id ${id} not found`);
+      throw new AppError(`Product with id ${id} not found`, 404);
     }
 
     return this.getProductById(id);
@@ -154,7 +154,7 @@ export default class ProductService {
     const changes = this.productModel.softDelete(id);
 
     if (changes === 0) {
-      throw new NotFoundError(`Product with id ${id} not found`);
+      throw new AppError(`Product with id ${id} not found`, 404);
     }
   }
 

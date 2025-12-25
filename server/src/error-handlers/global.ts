@@ -1,12 +1,7 @@
 import { ErrorRequestHandler, Response } from 'express';
 import { config } from '../config';
 import { logger } from '../utils/logger';
-import {
-  AppError,
-  BadError,
-  FatalError,
-  NotFoundError,
-} from '../utils/appError';
+import { AppError } from '../utils/appError';
 
 const sendErrorDev = (err: AppError, res: Response) => {
   return res.status(err.statusCode || 500).json({
@@ -34,21 +29,8 @@ const sendErrorProd = (err: AppError, res: Response) => {
 };
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  let errorInstance: AppError;
-  switch (true) {
-    case err instanceof NotFoundError:
-      errorInstance = new AppError(err.message, 404);
-      break;
-    case err instanceof BadError:
-      errorInstance = new AppError(err.message, 400);
-      break;
-    case err instanceof FatalError:
-      errorInstance = new AppError(err.message, 500);
-      break;
-    default:
-      errorInstance = err;
-      break;
-  }
+  const errorInstance =
+    err instanceof AppError ? err : new AppError(err.message);
 
   const statusCode = errorInstance.statusCode ?? 500;
 

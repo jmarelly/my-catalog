@@ -13,21 +13,3 @@ export class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-
-export class NotFoundError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-export class BadError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-export class FatalError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
